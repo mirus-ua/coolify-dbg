@@ -1,0 +1,22 @@
+version: "3"
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./pb_data:/pb_data
+    environment:
+      - SERVICE_FQDN_API_8080
+
+  client:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      - SERVER_API_URL=http://api:8080
+      - SERVICE_FQDN_CLIENT_3000
